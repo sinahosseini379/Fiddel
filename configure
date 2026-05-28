@@ -1,0 +1,7 @@
+#!/bin/sh
+# Dummy configure script for CI
+# The project does not require any configuration steps.
+# This script exits successfully to allow the build process to continue.
+
+echo "Running dummy configure..."
+exit 0
