@@ -13,7 +13,7 @@ PassWall2 is a powerful LuCI web interface application for OpenWrt that provides
 ```bash
 # find it in releases,base of your router Arch
 ```
-**Visit [GitHub Releases](https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/latest) to download the correct package for your system.**
+**Visit [GitHub Releases](https://github.com/sinahosseini379/Fiddel/releases/latest) to download the correct package for your system.**
 
 Choose the package format based on your **router's OpenWrt package manager**:
 
@@ -26,7 +26,7 @@ Choose the package format based on your **router's OpenWrt package manager**:
 2. **Upload to your router** (via SCP, LuCI upload, or wget):
    ```bash
    # Replace {VERSION} with the actual version (e.g., 26.2.5-1)
-   wget https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.ipk
+   wget https://github.com/sinahosseini379/Fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.ipk
    ```
 
 3. **Install:**
@@ -46,7 +46,7 @@ Choose the package format based on your **router's OpenWrt package manager**:
 2. **Upload to your router** (via SCP, LuCI upload, or wget):
    ```bash
    # Replace {VERSION} with the actual version (e.g., 26.2.5-1)
-   wget https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.apk
+   wget https://github.com/sinahosseini379/Fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.apk
    ```
 
 3. **Install:**
@@ -179,4 +179,4 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 ---
 
 ## Stargazers over time
-[![Stargazers over time](https://starchart.cc/Openwrt-Passwall/openwrt-fiddel.svg?variant=adaptive)](https://starchart.cc/Openwrt-Passwall/openwrt-fiddel)
+[![Stargazers over time](https://starchart.cc/sinahosseini379/Fiddel.svg?variant=adaptive)](https://starchart.cc/sinahosseini379/Fiddel)
