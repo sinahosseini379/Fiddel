@@ -1,10 +1,10 @@
-# Fiddel
+# PassWall2
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![OpenWrt](https://img.shields.io/badge/OpenWrt-21.02%2B-blue)](https://openwrt.org/)
 [![LuCI](https://img.shields.io/badge/LuCI-19.07%2B-green)](https://github.com/openwrt/luci)
 
-Fiddel is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
+PassWall2 is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
 
 ## 🛠️ Installation
 
@@ -123,7 +123,7 @@ Selected during installation based on your needs:
 ### Basic Setup
 
 1. **Access LuCI Interface:**
-   - Navigate to `Services` → `Fiddel`
+   - Navigate to `Services` → `PassWall2`
 
 2. **Add Your First Node:**
    - Go to `Node List` → `Add Node`
@@ -139,7 +139,7 @@ Selected during installation based on your needs:
 
 ## 🌐 Language Support
 
-Fiddel supports multiple languages:
+PassWall2 supports multiple languages:
 - 🇨🇳 Chinese (Simplified/Traditional)
 - 🇮🇷 Persian (فارسی)
 

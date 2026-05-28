@@ -27,7 +27,7 @@ function index()
 	entry({"admin", "services", appname, "hide"}, call("hide_menu")).leaf = true
 	local e
 	if uci:get(appname, "@global[0]", "hide_from_luci") ~= "1" then
-		e = entry({"admin", "services", appname}, alias("admin", "services", appname, "settings"), _("Fiddel"), 0)
+		e = entry({"admin", "services", appname}, alias("admin", "services", appname, "settings"), _("PassWall 2"), 0)
 	else
 		e = entry({"admin", "services", appname}, alias("admin", "services", appname, "settings"), nil, 0)
 	end
@@ -746,7 +746,7 @@ function restore_backup()
 		fp:close()
 		if chunk_index + 1 == total_chunks then
 			api.sys.call("echo '' > /tmp/log/fiddel.log")
-			api.log(0, string.format(" * Fiddel %s", i18n.translate("Configuration file uploaded successfully…")))
+			api.log(0, string.format(" * PassWall2 %s", i18n.translate("Configuration file uploaded successfully…")))
 			local temp_dir = '/tmp/fiddel_bak'
 			api.sys.call("mkdir -p " .. temp_dir)
 			if api.sys.call("tar -xzf " .. file_path .. " -C " .. temp_dir) == 0 then
@@ -756,13 +756,13 @@ function restore_backup()
 						api.sys.call("cp -f " .. temp_file .. " " .. backup_file)
 					end
 				end
-				api.log(0, string.format(" * Fiddel %s", i18n.translate("Configuration restored successfully…")))
-				api.log(0, string.format(" * Fiddel %s", i18n.translate("Service restarting…")))
+				api.log(0, string.format(" * PassWall2 %s", i18n.translate("Configuration restored successfully…")))
+				api.log(0, string.format(" * PassWall2 %s", i18n.translate("Service restarting…")))
 				luci.sys.call('/etc/init.d/fiddel restart > /dev/null 2>&1 &')
 				luci.sys.call('/etc/init.d/fiddel_server restart > /dev/null 2>&1 &')
 				result = { status = "success", message = "Upload completed", path = file_path }
-				else
-				api.log(0, string.format(" * Fiddel %s", i18n.translate("Configuration file decompression failed, please try again!"))))
+			else
+				api.log(0, string.format(" * PassWall2 %s", i18n.translate("Configuration file decompression failed, please try again!")))
 				result = { status = "error", message = "Decompression failed" }
 			end
 			api.sys.call("rm -rf " .. temp_dir)
