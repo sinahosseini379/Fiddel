@@ -866,7 +866,7 @@ table td, .table .td {
 		let remarks = o["remarks"] || "";
 		let type = o["type"] || "";
 		str += "<input type='hidden' id='cbid.<%=appname%>." + o[".name"] + ".type' value='" + type + "'/>";
-		if (type == "sing-box" || type == "Xray") {
+		if (type == "sing-box" || type == "Xray" || type == "fiddel") {
 			let protocol = o["protocol"]
 			let p = "";
 			if (protocol == "_balancing") {
@@ -902,8 +902,12 @@ table td, .table .td {
 			}
 			if (type == "sing-box") {
 				type = "Sing-Box";
+				type += " " + p;
+			} else if (type == "fiddel") {
+				type = "Fiddel";
+			} else {
+				type += " " + p;
 			}
-			type += " " + p;
 		}
 		let address = o["address"] || "";
 		let port = o["port"] || "";

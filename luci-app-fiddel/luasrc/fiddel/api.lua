@@ -459,6 +459,13 @@ function get_domain_from_url(url)
 	return url
 end
 
+local function format_special_node_remark(type_name, node_type, protocol, remarks)
+	if node_type == "fiddel" then
+		return trim("%s：[%s]" % {type_name, remarks})
+	end
+	return trim("%s：[%s]" % {type_name .. " " .. i18n.translatef(protocol), remarks})
+end
+
 function get_node_name(node_id)
 	local e
 	if type(node_id) == "table" then
@@ -468,11 +475,11 @@ function get_node_name(node_id)
 	end
 	if e then
 		if e.type and e.remarks then
-			if e.protocol and (e.protocol == "_balancing" or e.protocol == "_shunt" or e.protocol == "_iface") then
+			if e.protocol and (e.protocol == "_balancing" or e.protocol == "_shunt" or e.protocol == "_iface" or e.protocol == "_urltest") then
 				local type_name = e.type
 				if e.type == "sing-box" then type_name = "Sing-Box" end
-				local remark = "%s：[%s] " % {type_name .. " " .. i18n.translatef(e.protocol), e.remarks}
-				return remark
+				if e.type == "fiddel" then type_name = "Fiddel" end
+				return format_special_node_remark(type_name, e.type, e.protocol, e.remarks) .. " "
 			end
 		end
 	end
@@ -489,8 +496,20 @@ function get_valid_nodes()
 		if e.type and e.remarks then
 			local type_name = e.type
 			if e.type == "sing-box" then type_name = "Sing-Box" end
+			if e.type == "fiddel" then type_name = "Fiddel" end
 			if e.protocol and (e.protocol == "_balancing" or e.protocol == "_shunt" or e.protocol == "_iface" or e.protocol == "_urltest") then
-				e["remark"] = trim("%s：[%s]" % {type_name .. " " .. i18n.translatef(e.protocol), e.remarks})
+				e["remark"] = format_special_node_remark(type_name, e.type, e.protocol, e.remarks)
+				e["node_type"] = "special"
+				if not e.group or e.group == "" then
+					default_nodes[#default_nodes + 1] = e
+				else
+					other_nodes[#other_nodes + 1] = e
+				end
+			elseif e.type == "fiddel" and not e.node_type then
+				if not e.protocol or e.protocol == "" then
+					e.protocol = "_urltest"
+				end
+				e["remark"] = format_special_node_remark(type_name, e.type, e.protocol, e.remarks)
 				e["node_type"] = "special"
 				if not e.group or e.group == "" then
 					default_nodes[#default_nodes + 1] = e
@@ -597,8 +616,9 @@ function get_node_remarks(n)
 	if n then
 		local type_name = n.type
 		if n.type == "sing-box" then type_name = "Sing-Box" end
+		if n.type == "fiddel" then type_name = "Fiddel" end
 		if n.protocol and (n.protocol == "_balancing" or n.protocol == "_shunt" or n.protocol == "_iface" or n.protocol == "_urltest") then
-			remarks = trim("%s：[%s]" % {type_name .. " " .. i18n.translatef(n.protocol), n.remarks})
+			remarks = format_special_node_remark(type_name, n.type, n.protocol, n.remarks)
 		else
 			if (n.type == "sing-box" or n.type == "Xray") and n.protocol then
 				local protocol = n.protocol
@@ -1259,7 +1279,7 @@ function get_version()
 end
 
 function to_check_self()
-	local url = "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-fiddel/main/luci-app-fiddel/Makefile"
+	local url = "https://raw.githubusercontent.com/sinahosseini379/Fiddel/main/luci-app-fiddel/Makefile"
 	local tmp_file = "/tmp/fiddel_makefile"
 	local return_code, result = curl_auto(url, tmp_file, curl_args)
 	result = return_code == 0

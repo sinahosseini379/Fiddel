@@ -1,10 +1,10 @@
-# PassWall2
+# Fiddel
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![OpenWrt](https://img.shields.io/badge/OpenWrt-21.02%2B-blue)](https://openwrt.org/)
 [![LuCI](https://img.shields.io/badge/LuCI-19.07%2B-green)](https://github.com/openwrt/luci)
 
-PassWall2 is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
+Fiddel is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
 
 ## 🛠️ Installation
 
@@ -35,7 +35,7 @@ Choose the package format based on your **router's OpenWrt package manager**:
    opkg install luci-app-fiddel_*.ipk
    ```
    
-   > If installation fails due to missing dependencies (e.g., `xray-core`), you need to add the PassWall packages feed to `/etc/opkg/customfeeds.conf`.
+   > If installation fails due to missing dependencies (e.g., `xray-core`), you need to add the Fiddel packages feed to `/etc/opkg/customfeeds.conf`.
 
 ### For OpenWrt with APK 
 
@@ -123,7 +123,7 @@ Selected during installation based on your needs:
 ### Basic Setup
 
 1. **Access LuCI Interface:**
-   - Navigate to `Services` → `PassWall2`
+   - Navigate to `Services` → `Fiddel`
 
 2. **Add Your First Node:**
    - Go to `Node List` → `Add Node`
@@ -139,7 +139,7 @@ Selected during installation based on your needs:
 
 ## 🌐 Language Support
 
-PassWall2 supports multiple languages:
+Fiddel supports multiple languages:
 - 🇨🇳 Chinese (Simplified/Traditional)
 - 🇮🇷 Persian (فارسی)
 

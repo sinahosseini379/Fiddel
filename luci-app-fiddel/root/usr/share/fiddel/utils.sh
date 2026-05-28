@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright (C) 2022-2025 xiaorouji
-# Copyright (C) 2026 Openwrt-Passwall Organization
+# Copyright (C) 2026 Fiddel Organization
 
 CONFIG=fiddel
 APP_PATH=/usr/share/${CONFIG}

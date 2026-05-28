@@ -2,7 +2,7 @@ local m, s = ...
 
 local type_name = "fiddel"
 
-s.fields["type"]:value(type_name, "Fiddel (Hiddify Subscription)")
+s.fields["type"]:value(type_name, "Fiddel")
 if not s.fields["type"].default then
 	s.fields["type"].default = type_name
 end

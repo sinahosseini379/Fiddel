@@ -1,5 +1,5 @@
 # Copyright (C) 2022-2025 xiaorouji
-# Copyright (C) 2026 Openwrt-Passwall Organization
+# Copyright (C) 2026 Fiddel Organization
 #
 # This is free software, licensed under the GNU General Public License v3.
 
@@ -23,7 +23,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_Plugin
 
-LUCI_TITLE:=LuCI support for PassWall 2
+LUCI_TITLE:=LuCI support for Fiddel
 LUCI_PKGARCH:=all
 LUCI_DEPENDS:=+coreutils +coreutils-base64 +coreutils-nohup +curl \
 	+ip-full +libuci-lua +lua +luci-compat +luci-lib-jsonc +lyaml +resolveip +tcping \

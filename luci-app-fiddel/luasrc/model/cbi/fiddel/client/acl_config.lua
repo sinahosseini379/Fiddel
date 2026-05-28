@@ -265,7 +265,7 @@ o = s:option(ListValue, "remote_dns_protocol", translate("Remote DNS Protocol"))
 o:value("tcp", "TCP")
 o:value("doh", "DoH")
 o:value("udp", "UDP")
-if current_node.type == "sing-box" then
+if current_node.type == "sing-box" or current_node.type == "fiddel" then
 	o:value("tls", "TLS(DoT)")
 	o:value("quic", "QUIC(DoQ)")
 	o:value("http3", "HTTP3(DoH3)")
@@ -357,7 +357,7 @@ o.remove = function(self, section)
 	local node_value = s.fields["node"]:formvalue(arg[1])
 	if node_value then
 		local node_t = m:get(node_value) or {}
-		if node_t.type == "Xray" or node_t.type == "sing-box" then
+		if node_t.type == "Xray" or node_t.type == "sing-box" or node_t.type == "fiddel" then
 			AbstractValue.remove(self, section)
 		end
 	end

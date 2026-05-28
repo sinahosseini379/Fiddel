@@ -100,7 +100,7 @@ uci:foreach(appname, "haproxy_config", function(t)
 		local lbss = t.lbss
 		local listen_port = tonumber(t.haproxy_port) or 0
 		local server_node = uci:get_all(appname, lbss)
-		local hop = (health_check_type == "passwall_logic") and (server_node.hysteria_hop or server_node.hysteria2_hop) or nil
+		local hop = (health_check_type == "passwall_logic" or health_check_type == "fiddel_logic") and (server_node.hysteria_hop or server_node.hysteria2_hop) or nil
 		hop = hop and hop:gsub(":", "-") or nil
 		if server_node and server_node.address and (server_node.port or hop) then
 			server_remark = server_node.address .. ":" .. (server_node.port or hop)
@@ -108,7 +108,7 @@ uci:foreach(appname, "haproxy_config", function(t)
 			server_port = server_node.port or hop
 			t.origin_address = server_address
 			t.origin_port = server_port
-			if health_check_type == "passwall_logic" then
+			if health_check_type == "passwall_logic" or health_check_type == "fiddel_logic" then
 				if server_node.type ~= "Socks" then
 					local relay_port = server_node.port
 					local new_port = api.get_new_port()
@@ -170,7 +170,7 @@ listen %s
 	balance %s
 ]], port, bind_address, port, balancingStrategy))
 
-	if health_check_type == "passwall_logic" then
+	if health_check_type == "passwall_logic" or health_check_type == "fiddel_logic" then
 		f_out:write(string.format([[
 	option external-check
 	external-check command "/usr/share/%s/haproxy_check.sh"
@@ -228,7 +228,7 @@ f_out:write("\n" .. string.format(str, console_port, (console_user and console_u
 f_out:close()
 
 -- Built-in health check URL
-if health_check_type == "passwall_logic" then
+if health_check_type == "passwall_logic" or health_check_type == "fiddel_logic" then
 	local probeUrl = uci:get(appname, "@global_haproxy[0]", "health_probe_url") or "https://www.google.com/generate_204"
 	local f_url = io.open(haproxy_path .. "/Probe_URL", "w")
 	f_url:write(probeUrl)

@@ -95,7 +95,7 @@ current_node = current_node_id and m.uci:get_all(appname, current_node_id) or {}
 
 -- Shunt Start
 if (has_singbox or has_xray) and #nodes_table > 0 then
-	if #normal_list > 0 or #iface_list > 0 then
+	if #normal_list > 0 or #iface_list > 0 or #urltest_list > 0 or #balancing_list > 0 or #shunt_list > 0 then
 		if current_node.protocol == "_shunt" then
 			local shunt_lua = loadfile("/usr/lib/lua/luci/model/cbi/fiddel/client/include/shunt_options.lua")
 			setfenv(shunt_lua, getfenv(1))(m, s, {
@@ -191,7 +191,7 @@ o = s:taboption("DNS", ListValue, "remote_dns_protocol", translate("Remote DNS P
 o:value("tcp", "TCP")
 o:value("doh", "DoH")
 o:value("udp", "UDP")
-if current_node.type == "sing-box" then
+if current_node.type == "sing-box" or current_node.type == "fiddel" then
 	o:value("tls", "TLS(DoT)")
 	o:value("quic", "QUIC(DoQ)")
 	o:value("http3", "HTTP3(DoH3)")
@@ -258,7 +258,7 @@ o.remove = function(self, section)
 	local node_value = s.fields["node"]:formvalue(global_cfgid)
 	if node_value then
 		local node_t = m:get(node_value) or {}
-		if node_t.type == "Xray" or node_t.type == "sing-box" then
+		if node_t.type == "Xray" or node_t.type == "sing-box" or node_t.type == "fiddel" then
 			AbstractValue.remove(self, section)
 		end
 	end
@@ -364,9 +364,6 @@ end
 local o_node = s.fields["node"]
 local o_socks = s2.fields["node"]
 for k, v in pairs(nodes_table) do
-	if #normal_list == 0 and #iface_list == 0 then
-		break
-	end
 	o_node:value(v.id, v["remark"])
 	o_node.group[#o_node.group+1] = (v.group and v.group ~= "") and v.group or translate("default")
 	o_socks:value(v.id, v["remark"])

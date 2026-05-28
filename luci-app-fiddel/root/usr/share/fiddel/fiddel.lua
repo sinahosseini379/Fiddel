@@ -57,6 +57,12 @@ if action == "update" then
 		-- Update the Fiddel node to act as a urltest node for these fetched nodes
 		uci:set(appname, node_id, "protocol", "_urltest")
 		uci:set_list(appname, node_id, "urltest_node", urltest_nodes)
+		if not uci:get(appname, node_id, "urltest_url") or uci:get(appname, node_id, "urltest_url") == "" then
+			uci:set(appname, node_id, "urltest_url", "https://www.gstatic.com/generate_204")
+		end
+		if not uci:get(appname, node_id, "urltest_interval") or uci:get(appname, node_id, "urltest_interval") == "" then
+			uci:set(appname, node_id, "urltest_interval", "180")
+		end
 		uci:set(appname, node_id, "fiddel_last_update", os.date("%Y-%m-%d %H:%M:%S"))
 		uci:commit(appname)
 		print("Successfully updated Fiddel node with " .. #urltest_nodes .. " proxies.")

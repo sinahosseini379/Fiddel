@@ -139,7 +139,7 @@ function gen_outbound(flag, node, tag, proxy_table)
 			run_socks_instance = proxy_table.run_socks_instance
 		end
 
-		if node.type ~= "sing-box" then
+		if node.type ~= "sing-box" and node.type ~= "fiddel" then
 			local relay_port = node.port
 			local new_port = api.get_new_port()
 			local config_file = string.format("%s_%s_%s.json", flag, tag, new_port)

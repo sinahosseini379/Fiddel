@@ -67,12 +67,12 @@ o:depends("balancing_enable", true)
 
 ---- Health Check Type
 o = s:option(ListValue, "health_check_type", translate("Health Check Type"))
-o.default = "passwall_logic"
+o.default = "fiddel_logic"
 o:value("tcp", "TCP")
-o:value("passwall_logic", translate("URL Test") .. string.format("(passwall %s)", translate("Inner implement")))
+o:value("fiddel_logic", translate("URL Test") .. " (" .. translate("Fiddel Inner implement") .. ")")
 o:depends("balancing_enable", true)
 
----- Passwall Inner implement Probe URL
+---- Fiddel Inner implement Probe URL
 o = s:option(Value, "health_probe_url", translate("Probe URL"))
 o.default = "https://www.google.com/generate_204"
 o:value("https://cp.cloudflare.com/", "Cloudflare")
@@ -82,6 +82,7 @@ o:value("https://www.youtube.com/generate_204", "YouTube")
 o:value("https://connect.rom.miui.com/generate_204", "MIUI (CN)")
 o:value("https://connectivitycheck.platform.hicloud.com/generate_204", "HiCloud (CN)")
 o.description = translate("The URL used to detect the connection status.")
+o:depends("health_check_type", "fiddel_logic")
 o:depends("health_check_type", "passwall_logic")
 
 ---- Health Check Inter
@@ -96,6 +97,7 @@ o.rawhtml = true
 o.cfgvalue = function(t, n)
 	return string.format('<span style="color: red">%s</span>', translate("When the URL test is used, the load balancing node will be converted into a Socks node. when node list set customizing, must be a Socks node, otherwise the health check will be invalid."))
 end
+o:depends("health_check_type", "fiddel_logic")
 o:depends("health_check_type", "passwall_logic")
 
 -- [[ Balancing Settings ]]--
