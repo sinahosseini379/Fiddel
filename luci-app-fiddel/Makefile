@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-fiddel
-PKG_VERSION:=26.5.19
+PKG_VERSION:=0.0.2
 PKG_RELEASE:=1
 PKG_PO_VERSION:=$(PKG_VERSION)
 
