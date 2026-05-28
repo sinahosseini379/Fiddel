@@ -1,10 +1,10 @@
-# PassWall2
+# Fiddel
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![OpenWrt](https://img.shields.io/badge/OpenWrt-21.02%2B-blue)](https://openwrt.org/)
 [![LuCI](https://img.shields.io/badge/LuCI-19.07%2B-green)](https://github.com/openwrt/luci)
 
-PassWall2 is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
+Fiddel is a powerful LuCI web interface application for OpenWrt that provides advanced proxy and VPN functionality. It's a comprehensive solution for network traffic management, proxy services, and access control on OpenWrt-based routers.
 
 ## 🛠️ Installation
 
@@ -13,26 +13,26 @@ PassWall2 is a powerful LuCI web interface application for OpenWrt that provides
 ```bash
 # find it in releases,base of your router Arch
 ```
-**Visit [GitHub Releases](https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/latest) to download the correct package for your system.**
+**Visit [GitHub Releases](https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/latest) to download the correct package for your system.**
 
 Choose the package format based on your **router's OpenWrt package manager**:
 
 ### For OpenWrt with OPKG 
 
 1. **Download the IPK package** from the releases page  
-   Look for `luci-app-passwall2_{VERSION}_all.ipk` in the Assets section.  
-   > **Note:** If you need localization (Chinese/Persian), download the corresponding language package as well (e.g., `luci-i18n-passwall2-zh-cn...` or `...-fa...`).
+   Look for `luci-app-fiddel_{VERSION}_all.ipk` in the Assets section.  
+   > **Note:** If you need localization (Chinese/Persian), download the corresponding language package as well (e.g., `luci-i18n-fiddel-zh-cn...` or `...-fa...`).
 
 2. **Upload to your router** (via SCP, LuCI upload, or wget):
    ```bash
    # Replace {VERSION} with the actual version (e.g., 26.2.5-1)
-   wget https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/{VERSION}/luci-app-passwall2_{VERSION}_all.ipk
+   wget https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.ipk
    ```
 
 3. **Install:**
    ```bash
    opkg update
-   opkg install luci-app-passwall2_*.ipk
+   opkg install luci-app-fiddel_*.ipk
    ```
    
    > If installation fails due to missing dependencies (e.g., `xray-core`), you need to add the PassWall packages feed to `/etc/opkg/customfeeds.conf`.
@@ -40,18 +40,18 @@ Choose the package format based on your **router's OpenWrt package manager**:
 ### For OpenWrt with APK 
 
 1. **Download the APK package** from the releases page  
-   Look for `luci-app-passwall2_{VERSION}_all.apk` in the Assets section.
-   > **Note:** If you need localization (Chinese/Persian), download the corresponding language package as well (e.g., `luci-i18n-passwall2-zh-cn...` or `...-fa...`).
+   Look for `luci-app-fiddel_{VERSION}_all.apk` in the Assets section.
+   > **Note:** If you need localization (Chinese/Persian), download the corresponding language package as well (e.g., `luci-i18n-fiddel-zh-cn...` or `...-fa...`).
 
 2. **Upload to your router** (via SCP, LuCI upload, or wget):
    ```bash
    # Replace {VERSION} with the actual version (e.g., 26.2.5-1)
-   wget https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/download/{VERSION}/luci-app-passwall2_{VERSION}_all.apk
+   wget https://github.com/Openwrt-Passwall/openwrt-fiddel/releases/download/{VERSION}/luci-app-fiddel_{VERSION}_all.apk
    ```
 
 3. **Install:**
    ```bash
-   apk add --allow-untrusted luci-app-passwall2_*.apk
+   apk add --allow-untrusted luci-app-fiddel_*.apk
    ```
    
    > ⚠️ **Security Note:** `--allow-untrusted` bypasses package signature verification. 
@@ -123,7 +123,7 @@ Selected during installation based on your needs:
 ### Basic Setup
 
 1. **Access LuCI Interface:**
-   - Navigate to `Services` → `PassWall2`
+   - Navigate to `Services` → `Fiddel`
 
 2. **Add Your First Node:**
    - Go to `Node List` → `Add Node`
@@ -139,11 +139,11 @@ Selected during installation based on your needs:
 
 ## 🌐 Language Support
 
-PassWall2 supports multiple languages:
+Fiddel supports multiple languages:
 - 🇨🇳 Chinese (Simplified/Traditional)
 - 🇮🇷 Persian (فارسی)
 
-Language files are organized in `luci-app-passwall2/po/` subdirectories.
+Language files are organized in `luci-app-fiddel/po/` subdirectories.
 
 ## 🔧 Troubleshooting
 
@@ -151,7 +151,7 @@ Language files are organized in `luci-app-passwall2/po/` subdirectories.
 
 **Service Won't Start**
 ```bash
-logread | grep passwall2
+logread | grep fiddel
 ```
 Check system logs, verify node configuration, and ensure required packages are installed.
 
@@ -167,8 +167,8 @@ Check system logs, verify node configuration, and ensure required packages are i
 ### Debug Mode
 
 Enable debug logging in `Other Settings` and check:
-- Main log: `/tmp/log/passwall2.log`
-- Server log: `/tmp/log/passwall2_server.log`
+- Main log: `/tmp/log/fiddel.log`
+- Server log: `/tmp/log/fiddel_server.log`
 
 ## 📄 License
 
@@ -179,4 +179,4 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 ---
 
 ## Stargazers over time
-[![Stargazers over time](https://starchart.cc/Openwrt-Passwall/openwrt-passwall2.svg?variant=adaptive)](https://starchart.cc/Openwrt-Passwall/openwrt-passwall2)
+[![Stargazers over time](https://starchart.cc/Openwrt-Passwall/openwrt-fiddel.svg?variant=adaptive)](https://starchart.cc/Openwrt-Passwall/openwrt-fiddel)

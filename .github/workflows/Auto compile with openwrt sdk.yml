@@ -13,7 +13,7 @@ on:
         default: 'false'
 env:
   TZ: Asia/Shanghai
-  passwall2: ${{ github.repository }}
+  fiddel: ${{ github.repository }}
   packages: Openwrt-Passwall/openwrt-passwall-packages
   package_names: "chinadns-ng geoview hysteria naiveproxy tcping shadowsocks-rust shadowsocksr-libev simple-obfs sing-box v2ray-geodata v2ray-plugin xray-core"
   package_release: "chinadns-ng geoview hysteria naiveproxy tcping shadowsocks-rust shadowsocksr-libev simple-obfs sing-box v2ray-geoip v2ray-geosite v2ray-plugin xray-core"
@@ -27,7 +27,7 @@ jobs:
     name: Check Version
     runs-on: ubuntu-latest
     outputs:
-      passwall2_version: ${{ steps.check_version.outputs.latest_version }}
+      fiddel_version: ${{ steps.check_version.outputs.latest_version }}
       has_update: ${{ steps.check_version.outputs.has_update }}
       prerelease: ${{ steps.check_version.outputs.prerelease }}
     steps:
@@ -40,9 +40,9 @@ jobs:
       - name: Check version
         id: check_version
         env:
-          url_tags: https://api.github.com/repos/${{ env.passwall2 }}/releases/latest
+          url_tags: https://api.github.com/repos/${{ env.fiddel }}/releases/latest
         run: |
-          cd luci-app-passwall2
+          cd luci-app-fiddel
           latest_version=$(awk -F ':=' '/^PKG_VERSION:=|^PKG_RELEASE:=/ {print $2}' Makefile | sed ':a;N;s/\$(PKG_VERSION)-//;s/\n$//;s/\n/-/;ba')
           echo "latest_version=${latest_version}" >> $GITHUB_OUTPUT
 
@@ -68,9 +68,9 @@ jobs:
         if: steps.check_version.outputs.has_update == 'true'
         run: |
           echo "## :mega:Update content" >> release.txt
-          echo "![](https://img.shields.io/github/downloads/${{ env.passwall2 }}/${{steps.check_version.outputs.latest_version}}/total?style=flat-square)" >> release.txt
-          echo "### Passwall2 Info" >> release.txt
-          echo "**:minidisc: Passwall2 Version: ${{steps.check_version.outputs.latest_version}}**" >> release.txt
+          echo "![](https://img.shields.io/github/downloads/${{ env.fiddel }}/${{steps.check_version.outputs.latest_version}}/total?style=flat-square)" >> release.txt
+          echo "### Fiddel Info" >> release.txt
+          echo "**:minidisc: Fiddel Version: ${{steps.check_version.outputs.latest_version}}**" >> release.txt
           touch release.txt
 
       - name: Generate new tag & release
@@ -85,8 +85,8 @@ jobs:
           body_path: release.txt
 
 
-  job_build_passwall2:
-    name: Build passwall2 [${{ matrix.ver }}]
+  job_build_fiddel:
+    name: Build fiddel [${{ matrix.ver }}]
     needs: job_check
     if: needs.job_check.outputs.has_update == 'true'
     runs-on: ubuntu-latest
@@ -138,7 +138,7 @@ jobs:
 
           cat > feeds.tmp <<'EOF'
           src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git;main
-          src-git passwall2 https://github.com/${{ env.passwall2 }}.git;${{ github.ref_name }}
+          src-git fiddel https://github.com/${{ env.fiddel }}.git;${{ github.ref_name }}
           EOF
           cat feeds.conf.default >> feeds.tmp
           mv feeds.tmp feeds.conf.default
@@ -175,7 +175,7 @@ jobs:
           echo "Patch application completed"
           #--------------------------------------end_patches--------------------------------------------
 
-      - name: Compile passwall2
+      - name: Compile fiddel
         id: compile
         run: |
           cd sdk
@@ -191,24 +191,24 @@ jobs:
           echo "CONFIG_LUCI_LANG_ru=y" >> .config
           echo "CONFIG_LUCI_LANG_zh_Hans=y" >> .config
           echo "CONFIG_LUCI_LANG_zh_Hant=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2=m" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel=m" >> .config
           make defconfig
-          echo "make package/luci-app-passwall2/{clean,compile} -j$(nproc)"
-          make package/luci-app-passwall2/{clean,compile} -j$(nproc) V=s || make package/luci-app-passwall2/{clean,compile} -j1 V=s
+          echo "make package/luci-app-fiddel/{clean,compile} -j$(nproc)"
+          make package/luci-app-fiddel/{clean,compile} -j$(nproc) V=s || make package/luci-app-fiddel/{clean,compile} -j1 V=s
           mkdir upload
-          mv bin/packages/*/passwall2/luci-* upload/
+          mv bin/packages/*/fiddel/luci-* upload/
           make clean
           cd upload
           echo "status=success" >> $GITHUB_OUTPUT
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
-      - name: Upload passwall2 ipks to release
+      - name: Upload fiddel ipks to release
         uses: softprops/action-gh-release@v3
         if: steps.compile.outputs.status == 'success'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{needs.job_check.outputs.passwall2_version}}
+          tag_name: ${{needs.job_check.outputs.fiddel_version}}
           files: ${{ env.FIRMWARE }}/*
 
 
@@ -421,7 +421,7 @@ jobs:
 
           cat > feeds.tmp <<'EOF'
           src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git;main
-          src-git passwall2 https://github.com/${{ env.passwall2 }}.git;${{ github.ref_name }}
+          src-git fiddel https://github.com/${{ env.fiddel }}.git;${{ github.ref_name }}
           EOF
           cat feeds.conf.default >> feeds.tmp
           mv feeds.tmp feeds.conf.default
@@ -465,19 +465,19 @@ jobs:
           echo "CONFIG_ALL=n" >> .config
           echo "CONFIG_AUTOREMOVE=n" >> .config
           echo "CONFIG_SIGNED_PACKAGES=n" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2=m" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_All=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs=y" >> .config
-          echo "CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel=m" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_Basic_Core_All=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_Iptables_Transparent_Proxy=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_Nftables_Transparent_Proxy=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_Haproxy=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_Hysteria=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_NaiveProxy=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_Shadowsocks_Rust_Client=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_Shadowsocks_Rust_Server=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_ShadowsocksR_Libev_Client=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_ShadowsocksR_Libev_Server=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_Simple_Obfs=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-fiddel_INCLUDE_V2ray_Plugin=y" >> .config
 
           make defconfig
 
@@ -534,9 +534,9 @@ jobs:
         run: |
           cd sdk
           echo "## :mega:Update content" >> release.txt
-          echo "![](https://img.shields.io/github/downloads/${{ env.passwall2 }}/${{needs.job_check.outputs.passwall2_version}}/total?style=flat-square)" >> release.txt
-          echo "### Passwall2 Info" >> release.txt
-          echo "**:minidisc: Passwall2 Version: ${{needs.job_check.outputs.passwall2_version}}**" >> release.txt
+          echo "![](https://img.shields.io/github/downloads/${{ env.fiddel }}/${{needs.job_check.outputs.fiddel_version}}/total?style=flat-square)" >> release.txt
+          echo "### Fiddel Info" >> release.txt
+          echo "**:minidisc: Fiddel Version: ${{needs.job_check.outputs.fiddel_version}}**" >> release.txt
 
           echo "### Packages Version" >> release.txt
           echo "**package name**|**package version**" >> release.txt
@@ -560,6 +560,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{needs.job_check.outputs.passwall2_version}}
+          tag_name: ${{needs.job_check.outputs.fiddel_version}}
           body_path: ${{ env.FIRMWARE }}/release.txt
           files: ${{ env.FIRMWARE }}/upload/*

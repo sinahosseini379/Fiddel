@@ -1,0 +1,60 @@
+#!/bin/sh
+
+if [ -e "/etc/config/ucitrack" ]; then
+    uci -q batch <<-EOF
+ 		delete ucitrack.@fiddel[-1]
+		add ucitrack fiddel
+		set ucitrack.@fiddel[-1].init=fiddel
+		delete ucitrack.@fiddel_server[-1]
+		add ucitrack fiddel_server
+		set ucitrack.@fiddel_server[-1].init=fiddel_server
+		commit ucitrack
+EOF
+fi
+
+uci -q batch <<-EOF
+	delete firewall.fiddel
+	set firewall.fiddel=include
+	set firewall.fiddel.type='script'
+	set firewall.fiddel.path='/var/etc/fiddel.include'
+
+	delete firewall.fiddel_server
+	set firewall.fiddel_server=include
+	set firewall.fiddel_server.type='script'
+	set firewall.fiddel_server.path='/var/etc/fiddel_server.include'
+
+	set dhcp.@dnsmasq[0].localuse=1
+	commit dhcp
+
+	set uhttpd.main.max_requests=50
+	commit uhttpd
+EOF
+
+if [ -x "/sbin/fw3" ]; then
+	uci -q set firewall.fiddel.reload='1'
+	uci -q set firewall.fiddel_server.reload='1'
+else
+	uci -q delete firewall.fiddel.reload
+	uci -q delete firewall.fiddel.fw4_compatible
+	uci -q delete firewall.fiddel_server.reload
+	uci -q delete firewall.fiddel_server.fw4_compatible
+fi
+uci commit firewall
+
+
+[ ! -s "/etc/config/fiddel" ] && cp -f /usr/share/fiddel/0_default_config /etc/config/fiddel
+
+chmod +x /usr/share/fiddel/*.sh
+
+[ "$(uci -q get fiddel.@global_xray[0].sniffing)" == "1" ] && [ "$(uci -q get fiddel.@global_xray[0].route_only)" != "1" ] && uci -q set fiddel.@global_xray[0].sniffing_override_dest=1
+uci -q delete fiddel.@global_xray[0].sniffing
+uci -q delete fiddel.@global_xray[0].route_only
+uci -q commit fiddel
+
+sed -i "s#add_from#group#g" /etc/config/fiddel 2>/dev/null
+
+rm -f /tmp/luci-indexcache /tmp/luci-indexcache.*
+rm -rf /tmp/luci-modulecache/
+killall -HUP rpcd 2>/dev/null
+
+exit 0

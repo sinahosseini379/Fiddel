@@ -60,7 +60,7 @@ body:
       label: System related information
       description: Fill in relevant information to better identify the problem.
       placeholder: |
-        - Passwall2 version: 
+        - Fiddel version: 
         - Browser version (such as Chrome 96.0.4664.45 64-bit official version): 
         - Other：
     validations:
